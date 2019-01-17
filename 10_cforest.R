@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------------
 # THIS IS WHERE FUNCTION WOULD START
 # ------------------------------------------------------------------------------
-do_boruta <- function(survey_filepath, mtadat_filepath, sex, this_survey, skip_boruta = TRUE, w_neg=1, w_pos=1, seed) {
+do_cforest <- function(survey_filepath, mtadat_filepath, sex, this_survey, skip_cforest = TRUE, w_neg=1, w_pos=1, seed) {
 
     # RETURN VARIABLES:
     # PERCENT_W_HIV_DATA - the percent of the original data rows that has HIV results (pre-murho)
@@ -242,7 +242,7 @@ do_boruta <- function(survey_filepath, mtadat_filepath, sex, this_survey, skip_b
     # ------------------------------------------------------------------------------
     # Run Boruta to get important features
     imprtnt_vars <- NA
-    if (skip_boruta ==FALSE) {
+    if (skip_cforest ==FALSE) {
         cat("boruting.... \n\n")
         br_fit <- Boruta(hiv03 ~ . , data = survhivt_murhoed) # , doTrace=2) #, strata=hv104)
         summary(br_fit)
@@ -320,7 +320,7 @@ do_boruta <- function(survey_filepath, mtadat_filepath, sex, this_survey, skip_b
         # BORUTA = imprtnt_vars
         )
     )
-} # end do_boruta
+} # end do_cforest
 
 
 

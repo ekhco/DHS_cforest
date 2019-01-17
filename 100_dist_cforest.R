@@ -39,9 +39,9 @@ library(pROC)       # for the AUC
 library(e1071)
 library(plyr)
 # setwd("D:/EricChow/DHS_ranforest")
-setwd("~/QSU/DHS_boruta")
+setwd("~/QSU/DHS_cforest")
 source("0_fn.R")        # load functions
-source("10_boruta.R")   # load main boruta main function
+source("10_cforest.R")   # load main cforest main function
 
 # get list of surveys
 survey_dir <- "~/DHS_live_abstract/DHS_live_abstract/"
@@ -57,7 +57,7 @@ if (length(args)==1) {frange <- as.numeric(args[1])}  # do one survey
 if (length(args)> 1) {frange <- as.numeric(args[1]):as.numeric(args[2])} # do only this range
 
 # ------------------------------------------------------------------------------
-# Run this if you want to do a one-off survey run (go back to 10_boruta)
+# Run this if you want to do a one-off survey run (go back to 10_cforest)
 # ------------------------------------------------------------------------------
 
 if (1==0) {
@@ -77,7 +77,7 @@ if (1==0) {
 }
 
 # ------------------------------------------------------------------------------
-# FOR THE ALL THE MALES/FEMALES and for each survey, run boruta ...
+# FOR THE ALL THE MALES/FEMALES and for each survey, run cforest ...
 # ------------------------------------------------------------------------------
 
 cat(date()); all_results <- NULL
@@ -98,8 +98,8 @@ for (file in surveys[frange]) {
     w_neg = 1 ; w_pos = 3
 
     # 1 male, 2 female
-    try(   this_result_m <- cbind(do_boruta(survey_filepath, mtadat_filepath, sex=1, this_survey = file, skip_boruta = FALSE, w_neg=w_neg, w_pos=w_pos, seed = 314),data.frame(SURVEY = file)) ) # MALES
-    try(   this_result_f <- cbind(do_boruta(survey_filepath, mtadat_filepath, sex=2, this_survey = file, skip_boruta = FALSE, w_neg=w_neg, w_pos=w_pos, seed = 314),data.frame(SURVEY = file)) ) # FEMALES
+    try(   this_result_m <- cbind(do_cforest(survey_filepath, mtadat_filepath, sex=1, this_survey = file, skip_cforest = FALSE, w_neg=w_neg, w_pos=w_pos, seed = 314),data.frame(SURVEY = file)) ) # MALES
+    try(   this_result_f <- cbind(do_cforest(survey_filepath, mtadat_filepath, sex=2, this_survey = file, skip_cforest = FALSE, w_neg=w_neg, w_pos=w_pos, seed = 314),data.frame(SURVEY = file)) ) # FEMALES
     cat(date()) # output the date finished
     all_results <- rbind(all_results, this_result_m)
     all_results <- rbind(all_results, this_result_f)
